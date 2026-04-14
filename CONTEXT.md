@@ -1,4 +1,4 @@
-# CONTEXT.md — AthleticSketch
+# CONTEXT.md — Balapan
 *Cross-workspace summary*
 
 ## Apa ini
@@ -8,8 +8,8 @@ Kalkulator balapan olahraga sekolah. Guru masuk saiz padang → sistem kira bala
 Dalam pembangunan aktif.
 
 ## Rujukan Penting
-- Spec: `docs/specs/2026-04-14-athleticsketch-design.md`
-- Plan: `docs/plans/2026-04-14-athleticsketch-plan.md`
+- Spec: `docs/specs/2026-04-14-balapan-design.md`
+- Plan: `docs/plans/2026-04-14-balapan-plan.md`
 - Sumber formula: Garis Panduan KPM, Bahagian Sukan
 
 ## Tech

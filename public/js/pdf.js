@@ -47,7 +47,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text('AthleticSketch — Laporan Balapan Olahraga', pageW / 2, 13, { align: 'center' });
+  doc.text('Balapan — Laporan Balapan Olahraga', pageW / 2, 13, { align: 'center' });
   y = 28;
 
   // Tarikh
@@ -230,7 +230,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     doc.rect(0, 287, pageW, 10, 'F');
     doc.setTextColor(200, 200, 255);
     doc.setFontSize(8);
-    doc.text('AthleticSketch — Berdasarkan Garis Panduan KPM, Bahagian Sukan, Kementerian Pelajaran Malaysia', pageW / 2, 293, { align: 'center' });
+    doc.text('Balapan — Berdasarkan Garis Panduan KPM, Bahagian Sukan, Kementerian Pelajaran Malaysia', pageW / 2, 293, { align: 'center' });
 
     // Save
     doc.save(`balapan-${trackType}m-${trackData.lanes.length}lorong.pdf`);

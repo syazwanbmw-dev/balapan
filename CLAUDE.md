@@ -1,11 +1,11 @@
-# CLAUDE.md — AthleticSketch
+# CLAUDE.md — Balapan
 *Layer 1: The Map — Routing rules untuk AI*
 
 ## Projek
-- **Nama:** AthleticSketch — Kalkulator Balapan Olahraga Sekolah
+- **Nama:** Balapan — Kalkulator Balapan Olahraga Sekolah
 - **Domain:** Cloudflare Pages (static site)
 - **Status:** Dalam pembangunan
-- **Repo:** `athleticsketch`
+- **Repo:** `balapan`
 - **Deploy:** push ke `test` branch → verify → merge ke `main`
 
 ## Routing Rules
@@ -21,7 +21,7 @@
 ## Struktur Workspace
 
 ```
-athleticsketch/
+balapan/
 ├── CLAUDE.md             ← Kau di sini (Layer 1: The Map)
 ├── CONTEXT.md            ← Cross-workspace summary (Layer 2)
 ├── _headers              ← CSP headers Cloudflare Pages
