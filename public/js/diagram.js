@@ -6,7 +6,7 @@ const LANE_COLORS = [
 ];
 
 /**
- * Render rajah SVG balapan oval dengan dimension lines
+ * Render rajah SVG balapan oval dengan garisan jejari stagger
  * @param {Object} trackData   - Hasil calculateTrack()
  * @param {number} trackType   - Jenis balapan (150/200/300/400)
  * @param {number} fieldLength - Panjang padang (m)
@@ -16,8 +16,8 @@ export function renderDiagram(trackData, trackType, fieldLength, fieldWidth) {
   const { rInner, rOuter, straight, lanes: laneData } = trackData;
   const n = laneData.length;
 
-  // Margins (ruang untuk title + dimension lines)
-  const W = 760, mT = 72, mB = 52, mL = 90, mR = 50;
+  // Margins — mR lebih besar untuk ukuran lebar lorong
+  const W = 820, mT = 72, mB = 52, mL = 90, mR = 85;
   const availW = W - mL - mR;
 
   // Scale: fit lebar, cap tinggi pada 480px
@@ -28,7 +28,7 @@ export function renderDiagram(trackData, trackType, fieldLength, fieldWidth) {
   const sS  = straight * scale;
   const sRi = rInner * scale;
   const sRo = rOuter * scale;
-  const sLW = ((rOuter - rInner) / n) * scale;
+  const sLW = ((rOuter - rInner) / n) * scale;  // lebar lorong dalam piksel
 
   const H  = mT + 2 * sRo + mB;
   const cx = mL + availW / 2;
@@ -56,8 +56,6 @@ export function renderDiagram(trackData, trackType, fieldLength, fieldWidth) {
   }
 
   // ── LUKIS LORONG (filled ovals, luar → dalam) ──────────────
-  // Setiap oval besar dilukis dulu, oval kecil tutup bahagian dalam
-  // — hasilnya setiap lorong kelihatan sebagai jalur berwarna
   for (let i = n; i >= 1; i--) {
     const r = sRi + i * sLW;
     drawOval(svg, cx, cy, sS, r, '#fff', LANE_COLORS[(i - 1) % LANE_COLORS.length]);
@@ -65,21 +63,74 @@ export function renderDiagram(trackData, trackType, fieldLength, fieldWidth) {
   // Padang dalam (hijau)
   drawOval(svg, cx, cy, sS, sRi, '#16a34a', '#86efac');
 
-  // Label lorong — tersebar sepanjang arc kiri
+  // ── GARISAN JEJARI STAGGER ─────────────────────────────────
+  // Dari titik pusat lengkung kiri ke titik stagger setiap lorong.
+  // Sudut θ = stagger / r_luar_lorong (arc length formula)
+  // → membantu guru ukur dari satu titik pusat supaya garisan tidak senget
+  for (let i = 1; i <= n; i++) {
+    const rOuterI = rInner + i * (rOuter - rInner) / n;  // jejari luar lorong i (meter)
+    const theta   = laneData[i - 1].stagger / rOuterI;   // sudut dari 12 o'clock (radian)
+    const rs      = sRi + i * sLW;                        // jejari luar lorong i (piksel)
+
+    // Titik stagger pada tepi luar lorong i
+    const px = lx - rs * Math.sin(theta);
+    const py = cy - rs * Math.cos(theta);
+
+    // Garisan jejari dari pusat ke titik stagger
+    mkEl(svg, 'line', {
+      x1: lx, y1: cy, x2: px, y2: py,
+      stroke: '#fff', 'stroke-width': 1, 'stroke-dasharray': '4,2', opacity: 0.85
+    });
+
+    // Penanda titik stagger
+    mkEl(svg, 'circle', {
+      cx: px, cy: py, r: 3,
+      fill: LANE_COLORS[(i - 1) % LANE_COLORS.length],
+      stroke: '#fff', 'stroke-width': 1
+    });
+  }
+
+  // ── LABEL LORONG — tersebar sepanjang arc kiri ──────────────
   for (let i = 1; i <= n; i++) {
     const r   = sRi + (i - 0.5) * sLW;
-    const ang = (i / (n + 1)) * Math.PI;           // agih dari atas ke bawah
+    const ang = (i / (n + 1)) * Math.PI;
     const px  = lx - r * Math.sin(ang);
     const py  = cy - r * Math.cos(ang) + 4;
     mkTxt(svg, px, py, `L${i}`, '#fff', 8, 'middle', 'bold');
   }
 
-  // Garisan penamat (putus-putus, di pusat lengkung kanan)
+  // ── TITIK PUSAT (P1 kiri, P2 kanan) ───────────────────────
+  [lx, rx].forEach((x, idx) => {
+    mkEl(svg, 'circle', { cx: x, cy, r: 5, fill: '#1e293b', stroke: '#fff', 'stroke-width': 1.5 });
+    mkEl(svg, 'circle', { cx: x, cy, r: 1.5, fill: '#fff' });
+    mkTxt(svg, x, cy + 14, `P${idx + 1}`, '#1e293b', 7, 'middle', 'bold');
+  });
+
+  // ── GARISAN PENAMAT ────────────────────────────────────────
   mkEl(svg, 'line', {
     x1: rx, y1: tTop, x2: rx, y2: tBot,
-    stroke: '#fff', 'stroke-width': 2, 'stroke-dasharray': '5,3'
+    stroke: '#fff', 'stroke-width': 2.5, 'stroke-dasharray': '6,3'
   });
   mkTxt(svg, rx + 5, tTop - 4, 'PENAMAT', '#1e3a5f', 8, 'start', 'bold');
+
+  // ── UKURAN LEBAR LORONG (kanan, dalam garis lurus atas) ────
+  // Tick marks dan label 1.22m untuk setiap lorong
+  const tickX = rx - 12;  // dalam bahagian garis lurus atas, dekat kanan
+  for (let i = 1; i <= n; i++) {
+    const y1  = cy - sRi - (i - 1) * sLW;  // tepi dalam lorong i (atas)
+    const y2  = cy - sRi - i * sLW;         // tepi luar lorong i (atas)
+    const mid = (y1 + y2) / 2;
+
+    // Tick di sempadan lorong
+    mkEl(svg, 'line', { x1: tickX - 3, y1, x2: tickX + 3, y2: y1, stroke: '#fff', 'stroke-width': 0.8 });
+    // Label lebar lorong
+    mkTxt(svg, tickX, mid + 3, '1.22m', '#fff', 5.5, 'middle');
+  }
+  // Tick terakhir (tepi dalam lorong 1 = sempadan padang dalam)
+  mkEl(svg, 'line', {
+    x1: tickX - 3, y1: cy - sRi, x2: tickX + 3, y2: cy - sRi,
+    stroke: '#fff', 'stroke-width': 0.8
+  });
 
   // ── DIMENSION LINES ────────────────────────────────────────
 
@@ -98,11 +149,25 @@ export function renderDiagram(trackData, trackType, fieldLength, fieldWidth) {
     vDim(svg, lx - sRo - 30, cy - fh / 2, cy + fh / 2, `${fieldWidth}m`, '#64748b');
   }
 
+  // 4. Jejari dalam (garisan mendatar dari P1 ke tepi dalam)
+  const rLabel = `r = ${rInner}m`;
+  mkEl(svg, 'line', {
+    x1: lx, y1: cy, x2: lx + sRi, y2: cy,
+    stroke: '#dc2626', 'stroke-width': 1, 'stroke-dasharray': '3,2'
+  });
+  mkEl(svg, 'polygon', {
+    points: `${lx + sRi},${cy} ${lx + sRi - 5},${cy - 2.5} ${lx + sRi - 5},${cy + 2.5}`,
+    fill: '#dc2626'
+  });
+  mkTxt(svg, lx + sRi / 2, cy - 5, rLabel, '#dc2626', 7, 'middle');
+
   // ── TAJUK ──────────────────────────────────────────────────
   mkTxt(svg, W / 2, 16, `RAJAH BALAPAN ${trackType}M`, '#111827', 14, 'middle', 'bold');
   if (fieldLength && fieldWidth) {
     mkTxt(svg, W / 2, 34, `DI ATAS PADANG ${fieldLength}M × ${fieldWidth}M`, '#6b7280', 10, 'middle');
   }
+  // Nota jejari
+  mkTxt(svg, lx, tTop - 5, `r dalam: ${rInner}m | r luar: ${rOuter}m`, '#6b7280', 7, 'start');
 
   return svg;
 }
@@ -156,7 +221,6 @@ function hDim(svg, x1, x2, y, label, color, tickY = null) {
     mkEl(svg, 'line', { x1: x2, y1: tickY, x2, y2: y + 3, stroke: color, 'stroke-width': 0.8, 'stroke-dasharray': '2,2' });
   }
 
-  // Latar teks (supaya mudah dibaca)
   const lw = label.length * 5.5 + 4;
   mkEl(svg, 'rect', { x: mid - lw / 2, y: y - 9, width: lw, height: 13, fill: '#f8fafc' });
   mkTxt(svg, mid, y + 2, label, color, 9, 'middle', 'bold');
