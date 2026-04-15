@@ -11,8 +11,8 @@
       theme: {
         extend: {
           colors: {
-            primary: '#4f46e5',
-            sidebar: '#1e1b4b'
+            primary: '#dc2626',
+            sidebar: '#7f1d1d'
           }
         }
       }
@@ -27,8 +27,8 @@
       <span class="text-2xl">🏃</span>
       <span class="font-bold text-lg tracking-wide">Balapan</span>
     </div>
-    <span class="text-sm text-indigo-200">Kalkulator Balapan Olahraga Sekolah</span>
-    <span class="text-xs text-indigo-300">celikguru.my</span>
+    <span class="text-sm text-red-200">Kalkulator Balapan Olahraga Sekolah</span>
+    <span class="text-xs text-red-300">celikguru.my</span>
   </header>
 
   <div class="flex flex-1">
@@ -38,12 +38,12 @@
 
       <!-- Input: Saiz Padang -->
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-3">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-red-300 mb-3">
           📐 Saiz Padang
         </h2>
 
         <!-- Info tooltip -->
-        <div class="bg-indigo-900 border border-indigo-700 rounded-lg p-3 mb-4 text-xs text-indigo-200 leading-relaxed">
+        <div class="bg-red-950 border border-red-800 rounded-lg p-3 mb-4 text-xs text-red-200 leading-relaxed">
           <span class="text-yellow-300 font-semibold">ℹ️ Penting:</span><br>
           Masukkan ukuran <strong>kawasan balapan SAHAJA</strong>.<br>
           Tidak termasuk:<br>
@@ -52,19 +52,19 @@
           • Kawasan letak kenderaan
         </div>
 
-        <label class="block text-xs text-indigo-300 mb-1">Panjang (meter)</label>
+        <label class="block text-xs text-red-300 mb-1">Panjang (meter)</label>
         <input id="input-length" type="number" min="1" max="500" step="0.1"
           placeholder="cth: 180"
-          class="w-full bg-indigo-900 border border-indigo-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-400 mb-3">
+          class="w-full bg-red-950 border border-red-800 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-red-400 mb-3">
 
-        <label class="block text-xs text-indigo-300 mb-1">Lebar (meter)</label>
+        <label class="block text-xs text-red-300 mb-1">Lebar (meter)</label>
         <input id="input-width" type="number" min="1" max="500" step="0.1"
           placeholder="cth: 80"
-          class="w-full bg-indigo-900 border border-indigo-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-400 mb-3">
+          class="w-full bg-red-950 border border-red-800 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-red-400 mb-3">
 
-        <label class="block text-xs text-indigo-300 mb-1">Bilangan Lorong</label>
+        <label class="block text-xs text-red-300 mb-1">Bilangan Lorong</label>
         <select id="input-lanes"
-          class="w-full bg-indigo-900 border border-indigo-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-400 mb-4">
+          class="w-full bg-red-950 border border-red-800 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-red-400 mb-4">
           <option value="8">8 Lorong</option>
           <option value="6">6 Lorong</option>
           <option value="4" selected>4 Lorong</option>
@@ -73,14 +73,14 @@
         <div id="error-msg" class="hidden text-red-400 text-xs mb-3"></div>
 
         <button id="btn-calculate"
-          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
+          class="w-full bg-red-700 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
           Kira Balapan
         </button>
       </div>
 
       <!-- Hasil: Cadangan Konfigurasi -->
       <div id="results-section" class="hidden">
-        <h2 class="text-xs font-semibold uppercase tracking-widest text-indigo-300 mb-3">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-red-300 mb-3">
           🏁 Cadangan
         </h2>
         <div id="config-list" class="flex flex-col gap-2"></div>
@@ -114,7 +114,7 @@
 
         <!-- Diagram SVG -->
         <div class="bg-white rounded-xl shadow-sm p-6">
-          <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Diagram Balapan</h3>
+          <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Rajah Balapan</h3>
           <div id="diagram-container" class="flex justify-center"></div>
         </div>
 
@@ -144,7 +144,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-primary text-indigo-200 text-xs text-center py-3">
+  <footer class="bg-primary text-red-200 text-xs text-center py-3">
     © Balapan — Berdasarkan Garis Panduan KPM, Bahagian Sukan
   </footer>
 

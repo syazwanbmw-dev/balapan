@@ -68,7 +68,7 @@ btnCalc.addEventListener('click', () => {
 
   validConfigs.forEach(config => {
     const btn = document.createElement('button');
-    btn.className = 'w-full text-left px-3 py-2 rounded-lg text-sm border border-indigo-700 text-indigo-200 hover:bg-indigo-700 hover:text-white transition-colors';
+    btn.className = 'w-full text-left px-3 py-2 rounded-lg text-sm border border-red-800 text-red-200 hover:bg-red-800 hover:text-white transition-colors';
     btn.textContent = `✅ ${config.track}m · ${config.lanes} Lorong`;
     btn.addEventListener('click', () => showTrack(length, width, config.track, config.lanes, btn));
     configList.appendChild(btn);
@@ -82,9 +82,9 @@ btnCalc.addEventListener('click', () => {
 function showTrack(length, width, track, lanes, activeBtn) {
   // Highlight active button
   configList.querySelectorAll('button').forEach(b => {
-    b.classList.remove('bg-indigo-600', 'text-white');
+    b.classList.remove('bg-red-700', 'text-white');
   });
-  activeBtn.classList.add('bg-indigo-600', 'text-white');
+  activeBtn.classList.add('bg-red-700', 'text-white');
 
   const data = calculateTrack(length, width, track, lanes);
   if (!data.feasible) {
@@ -101,7 +101,7 @@ function showTrack(length, width, track, lanes, activeBtn) {
   outputSubtitle.textContent = `Padang: ${length}m × ${width}m | Keluasan: ${(length * width).toLocaleString()}m² | Garis lurus: ${data.straight}m | Jejari: ${data.rInner}m`;
 
   // Render diagram
-  const svg = renderDiagram(data, track);
+  const svg = renderDiagram(data, track, length, width);
   currentSVG = svg;
   diagramContainer.innerHTML = '';
   diagramContainer.appendChild(svg);
