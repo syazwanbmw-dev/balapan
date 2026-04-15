@@ -42,7 +42,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
 
   // ── HALAMAN 1 ──────────────────────────────────────────
   // Header
-  doc.setFillColor(220, 38, 38);
+  doc.setFillColor(30, 58, 95);
   doc.rect(0, 0, pageW, 20, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(14);
@@ -58,9 +58,9 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
   y += 8;
 
   // Maklumat padang
-  doc.setFillColor(255, 240, 240);
+  doc.setFillColor(240, 245, 255);
   doc.roundedRect(margin, y, contentW, 28, 3, 3, 'F');
-  doc.setTextColor(153, 27, 27);
+  doc.setTextColor(30, 64, 175);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.text('Maklumat Padang', margin + 4, y + 7);
@@ -101,7 +101,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     y += diagramH + 5;
 
     // Jadual ukuran per lorong
-    doc.setFillColor(220, 38, 38);
+    doc.setFillColor(30, 58, 95);
     doc.rect(margin, y, contentW, 7, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
@@ -137,7 +137,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     y = margin;
 
     // Header Halaman 2
-    doc.setFillColor(220, 38, 38);
+    doc.setFillColor(30, 58, 95);
     doc.rect(0, 0, pageW, 20, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(14);
@@ -146,7 +146,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     y = 28;
 
     // Spesifikasi teknikal
-    doc.setTextColor(153, 27, 27);
+    doc.setTextColor(30, 64, 175);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.text('Spesifikasi Teknikal Garisan', margin, y);
@@ -172,7 +172,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     y += 4;
 
     // Keperluan Alatan
-    doc.setTextColor(153, 27, 27);
+    doc.setTextColor(30, 64, 175);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.text('Keperluan Alatan', margin, y);
@@ -188,7 +188,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     y += 4;
 
     // Bahan-bahan
-    doc.setTextColor(153, 27, 27);
+    doc.setTextColor(30, 64, 175);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.text('Bahan-Bahan', margin, y);
@@ -226,7 +226,7 @@ export function exportPDF(trackData, trackType, fieldLength, fieldWidth, svgEl) 
     });
 
     // Footer
-    doc.setFillColor(220, 38, 38);
+    doc.setFillColor(30, 58, 95);
     doc.rect(0, 287, pageW, 10, 'F');
     doc.setTextColor(200, 200, 255);
     doc.setFontSize(8);
